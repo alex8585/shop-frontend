@@ -1,13 +1,22 @@
+<script setup lang="ts">
+import { useCartStore } from './stores/cartStore'
+
+const cart = useCartStore()
+</script>
+
 <template>
   <v-app>
     <v-app-bar>
       <v-toolbar-title>Shop</v-toolbar-title>
 
-      <!-- Меню рядом с логотипом -->
       <div class="nav-links">
         <RouterLink to="/" class="nav-link">Shop</RouterLink>
         <RouterLink to="/categories" class="nav-link">
           Categories
+        </RouterLink>
+
+       <RouterLink to="/cart" class="nav-link">
+          Cart ({{ cart.totalCount }})
         </RouterLink>
       </div>
 

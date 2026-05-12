@@ -11,6 +11,6 @@ const emit = defineEmits(['update:page'])
   <v-pagination
     :model-value="props.page"
     :length="props.length"
-    @update:model-value="emit('update:page', $event)"
+    @update:model-value="emit('update:page', Number($event))"
   />
 </template>

@@ -6,21 +6,35 @@ import AppPagination from '../components/AppPagination.vue'
 import SortSelect from '../components/SortSelect.vue'
 import ProductFilters from '../components/ProductFilters.vue'
 import PerPageSelect from '../components/PerPageSelect.vue'
+import ProductSearch from '../components/ProductSearch.vue'
 
-
+import { useCartStore } from '../stores/cartStore'
 import { useCategoryStore } from '../stores/categoryStore'
 import { useTagStore } from '../stores/tagStore'
+
 
 const store = useProductStore()
 
 const categoryStore = useCategoryStore()
 const tagStore = useTagStore()
+const cart = useCartStore()
 
 onMounted(() => {
   store.fetchProducts()
   categoryStore.fetchCategories()
   tagStore.fetchTags()
+
 })
+
+const applySearch = (value: string) => {
+
+  store.search = value
+
+  store.fetchProducts(1)
+}
+
+
+
 
 const changePerPage = (value: number) => {
   store.fetchProducts(1, store.sort, value)
@@ -47,6 +61,13 @@ const resetFilters = () => {
   store.resetFilters()
   store.fetchProducts(1)
 }
+
+
+const addToCart = (p: any) => {
+  cart.addToCart(p)
+}
+
+
 
 </script>
 
@@ -82,6 +103,18 @@ const resetFilters = () => {
               @update:model-value="changePerPage"
             />
           </div>
+
+
+          <div class="top-center">
+
+            <ProductSearch
+              @search="applySearch"
+            />
+
+          </div>
+
+
+
 
           <!-- RIGHT -->
           <div class="top-right">
@@ -147,12 +180,18 @@ const resetFilters = () => {
                   ${{ p.price }}
                 </strong>
 
-                <v-btn
-                  size="small"
-                  color="primary"
-                >
-                  Buy
-                </v-btn>
+
+
+              <v-btn
+                size="small"
+                color="primary"
+                @click="addToCart(p)"
+              >
+                Buy
+              </v-btn>
+
+
+
 
               </v-card-actions>
 

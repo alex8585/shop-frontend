@@ -12,6 +12,9 @@ export const useProductStore = defineStore('products', {
     total: 0,
     perPage: 12,
     sort: 'newest',
+    search: '',
+
+
 
     filters: {
       category_id: null as number | null,
@@ -31,6 +34,7 @@ export const useProductStore = defineStore('products', {
           page,
           sort,
           per_page: perPage,
+          search: this.search,
           ...this.filters
         }
       })
@@ -40,13 +44,14 @@ export const useProductStore = defineStore('products', {
       this.currentPage = res.data.meta?.current_page ?? page
       this.lastPage = res.data.meta?.last_page ?? 1
       this.total = res.data.meta?.total ?? 0
-      console.log(this.total)
-      console.log(this.currentPage)
-      console.log(this.lastPage)
       this.sort = sort
       this.perPage = perPage
-
       this.loading = false
+    },
+
+
+    setSearch(value: string) {
+      this.search = value
     },
 
     setFilters(partial: Partial<typeof this.filters>) {

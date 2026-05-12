@@ -21,7 +21,6 @@ export const useTagStore = defineStore('tags', {
       const res = await api.get('/tags')
 
       this.tags = res.data.data
-      console.log(this.tags)
       this.loading = false
     }
   }
