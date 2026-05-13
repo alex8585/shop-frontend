@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { useCartStore } from './stores/cartStore'
+import { useAuthStore } from './stores/authStore'
+import { useRouter } from 'vue-router'
 
 const cart = useCartStore()
+const auth = useAuthStore()
+const router = useRouter()
+
+const logout = () => {
+  auth.logout()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -11,14 +20,46 @@ const cart = useCartStore()
 
       <div class="nav-links">
         <RouterLink to="/" class="nav-link">Shop</RouterLink>
-        <RouterLink to="/categories" class="nav-link">
-          Categories
-        </RouterLink>
+        <!-- <RouterLink to="/categories" class="nav-link"> -->
+        <!--   Categories -->
+        <!-- </RouterLink> -->
 
        <RouterLink to="/cart" class="nav-link">
           Cart ({{ cart.totalCount }})
         </RouterLink>
+
+
+
+        <RouterLink
+
+          v-if="!auth.isAuth"
+          to="/register" class="nav-link">
+          Register
+        </RouterLink>
+
+
+       <RouterLink
+          v-if="!auth.isAuth"
+          to="/login"
+          class="nav-link"
+        >
+          Login
+        </RouterLink>
+
+        <a
+          v-else
+          class="nav-link"
+          @click.prevent="logout"
+        >
+          Logout
+        </a>
+
+
+
       </div>
+
+
+
 
       <v-spacer />
     </v-app-bar>
@@ -38,6 +79,7 @@ const cart = useCartStore()
 }
 
 .nav-link {
+  cursor:pointer;
   text-decoration: none;
   color: inherit;
   font-size: 16px;
