@@ -105,6 +105,20 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token')
 
       delete api.defaults.headers.common.Authorization
+    },
+
+
+    async exchangeGithubToken(temp: string) {
+      this.loading = true
+      try {
+        const res = await api.post('/auth/github/exchange', { temp })
+        this.token = res.data.token
+        this.user = res.data.user
+        localStorage.setItem('token', this.token)
+        api.defaults.headers.common.Authorization = `Bearer ${this.token}`
+      } finally {
+        this.loading = false
+      }
     }
   }
 })

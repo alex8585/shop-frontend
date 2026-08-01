@@ -3,6 +3,8 @@ import { reactive } from 'vue'
 import { useAuthStore } from '../stores/authStore'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { api } from '../services/api'
+
 const auth = useAuthStore()
 const router = useRouter()
 const errorMessage = ref('')
@@ -11,6 +13,14 @@ const form = reactive({
   email: '',
   password: ''
 })
+
+
+
+const loginWithGithub = async () => {
+  const res = await api.get('/auth/github/redirect-url')
+  window.location.href = res.data.url
+}
+
 
 const submit = async () => {
 
@@ -80,10 +90,13 @@ const submit = async () => {
             Login
           </v-btn>
 
+    <v-btn block variant="outlined" class="mb-3" @click="loginWithGithub">
+  Войти через GitHub
+</v-btn>
         </v-card>
-
       </v-col>
     </v-row>
+
   </v-container>
 </template>
 

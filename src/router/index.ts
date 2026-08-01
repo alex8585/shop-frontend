@@ -29,6 +29,15 @@ const router = createRouter({
       component: LoginView,
       meta: { guestOnly: true }
     },
+
+    {
+      path: '/auth/callback',
+      name: 'auth-callback',
+      meta: { guestOnly: true },
+      component: () => import('../views/AuthCallbackView.vue')
+    }
+
+
   ]
 })
 
